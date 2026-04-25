@@ -8,22 +8,22 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Harvin The Lord Barbier — Reserva tu cita',
+  title: 'The Lord Barbier — Reserva tu cita',
   description:
-    'Reservá tu cita en Harvin The Lord Barbier. Barbería premium en Costa Rica. Elegí tu barbero, servicio y horario en minutos.',
-  metadataBase: new URL('https://harvinbarbier.com'),
+    'Reservá tu cita en The Lord Barbier. Barbería premium en Costa Rica. Elegí tu barbero, servicio y horario en minutos.',
+  metadataBase: new URL('https://thelordbarbier.com'),
   openGraph: {
-    title: 'Harvin The Lord Barbier — Reserva tu cita',
+    title: 'The Lord Barbier — Reserva tu cita',
     description: 'Reservá tu cita online. Rápido, fácil y sin llamadas.',
-    url: 'https://harvinbarbier.com',
-    siteName: 'Harvin The Lord Barbier',
+    url: 'https://thelordbarbier.com',
+    siteName: 'The Lord Barbier',
     locale: 'es_CR',
     type: 'website',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'Harvin The Lord Barbier' }],
+    images: [{ url: '/og-image.jpg', width: 1200, height: 630, alt: 'The Lord Barbier' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Harvin The Lord Barbier — Reserva tu cita',
+    title: 'The Lord Barbier — Reserva tu cita',
     description: 'Reservá tu cita online. Rápido, fácil y sin llamadas.',
     images: ['/og-image.jpg'],
   },

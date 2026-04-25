@@ -31,9 +31,9 @@ export const metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'HairSalon',
-  name: 'Harvin The Lord Barbier',
+  name: 'The Lord Barbier',
   description: 'Barbería premium en Costa Rica. Reservá tu cita online.',
-  url: 'https://harvinbarbier.com',
+  url: 'https://thelordbarbier.com',
   telephone: '+50688887777',
   address: {
     '@type': 'PostalAddress',
@@ -58,7 +58,7 @@ export default async function HomePage() {
       <header className="sticky top-0 z-40 bg-brand-black/95 backdrop-blur-sm border-b border-white/10">
         <div className="container-app flex items-center justify-between h-16">
           <span className="font-serif text-lg font-bold text-white tracking-wide">
-            Harvin The Lord Barbier
+            The Lord Barbier
           </span>
           <div className="flex items-center gap-3">
             <Link href="/login" className="text-white/50 hover:text-white text-xs transition-colors">
@@ -75,27 +75,29 @@ export default async function HomePage() {
 
       {/* HERO */}
       <section className="py-24 sm:py-36" style={{ backgroundColor: '#ffffffff' }}>
-        <div className="container-app text-center">
-          <div className="mb-8 flex justify-center">
+        <div className="container-app">
+          <div className="mb-12 flex items-center gap-6">
             <Image
               src="/logo.webp"
-              alt="Harvin The Lord Barbier"
-              width={300}
-              height={120}
-              className="object-contain"
+              alt="The Lord Barbier"
+              width={80}
+              height={32}
+              className="object-contain flex-shrink-0"
               priority
             />
+            <div>
+              <p className="text-xs font-semibold tracking-[0.25em] uppercase" style={{ color: '#888880' }}>
+                Barbería Premium — Costa Rica
+              </p>
+              <h1 className="font-serif text-4xl sm:text-5xl font-bold text-balance leading-tight" style={{ color: '#111111' }}>
+                The Lord<br />Barbier
+              </h1>
+            </div>
           </div>
-          <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-6" style={{ color: '#888880' }}>
-            Barbería Premium — Costa Rica
-          </p>
-          <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-8 text-balance leading-tight" style={{ color: '#111111' }}>
-            <em>The Lord</em><br />Barbier
-          </h1>
-          <p className="text-lg sm:text-xl max-w-xl mx-auto mb-12 leading-relaxed" style={{ color: '#666660' }}>
+          <p className="text-lg sm:text-xl max-w-xl mb-12 leading-relaxed" style={{ color: '#666660' }}>
             Reservá tu cita online. Elegí tu barbero, tu servicio y tu horario en minutos. Sin llamadas, sin WhatsApp.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start gap-4">
             <Link href="/reservar">
               <button className="bg-[#111111] text-white font-semibold tracking-wider uppercase text-sm px-10 py-4 hover:bg-[#333] transition-colors">
                 Reservar mi cita
@@ -193,10 +195,10 @@ export default async function HomePage() {
 
           <div className="flex-shrink-0">
             <Image
-              src="/teloryn-logo.png"
-              alt="Teloryn"
-              width={200}
-              height={70}
+              src="/logo.webp"
+              alt="The Lord Barbier"
+              width={100}
+              height={40}
               className="object-contain"
               loading="lazy"
               decoding="async"

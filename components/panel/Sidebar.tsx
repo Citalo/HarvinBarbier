@@ -140,7 +140,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
           <Link href={baseUrl} onClick={() => setOpen(false)}>
             <Image
               src="/logo.webp"
-              alt="Harvin The Lord Barbier"
+              alt="The Lord Barbier"
               width={130}
               height={52}
               className="object-contain brightness-0 invert"

@@ -25,7 +25,7 @@ export function ConfirmationCard({ appointment }: ConfirmationCardProps) {
     })
 
     const link = document.createElement('a')
-    link.download = `cita-harvin-${appointment.date}.png`
+    link.download = `cita-barbier-${appointment.date}.png`
     link.href = canvas.toDataURL('image/png')
     link.click()
   }

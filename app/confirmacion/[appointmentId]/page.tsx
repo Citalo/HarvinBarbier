@@ -5,7 +5,7 @@ import { ConfirmationCard } from '@/components/booking/ConfirmationCard'
 import type { AppointmentWithDetails } from '@/lib/supabase/types'
 
 export const metadata = {
-  title: 'Confirmación de cita - Harvin',
+  title: 'Confirmación de cita - The Lord Barbier',
   robots: { index: false, follow: false },
 }
 

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Acceso al Panel — Harvin The Lord Barbier',
+  title: 'Acceso al Panel — The Lord Barbier',
   robots: { index: false, follow: false },
 }
 
