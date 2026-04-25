@@ -1,6 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/server'
 import { getSessionBarber } from '@/lib/supabase/getSessionBarber'
-import { formatAppointmentDate, formatTime } from '@/lib/utils/formatting'
+import { formatTime } from '@/lib/utils/formatting'
 import Header from '@/components/panel/Header'
 import Link from 'next/link'
 

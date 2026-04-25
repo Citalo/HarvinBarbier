@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { formatAppointmentDate, formatTime } from '@/lib/utils/formatting'
 import Header from '@/components/panel/Header'
-import { Button } from '@/components/ui/Button'
 import { Toast } from '@/components/ui/Toast'
 
 interface Appointment {
