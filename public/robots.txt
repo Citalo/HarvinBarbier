@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /barbero/
+Disallow: /confirmacion/
+Disallow: /api/
+
+Sitemap: https://harvinbarbier.com/sitemap.xml

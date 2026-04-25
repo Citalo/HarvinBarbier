@@ -1,5 +1,5 @@
 {
-  "name": "harvin-temp",
+  "name": "harvin-barbier",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,12 @@
   "dependencies": {
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.35"
+    "next": "14.2.35",
+    "@supabase/supabase-js": "^2.49.4",
+    "@supabase/ssr": "^0.5.2",
+    "date-fns": "^3.6.0",
+    "date-fns-tz": "^3.2.0",
+    "html2canvas": "^1.4.1"
   },
   "devDependencies": {
     "typescript": "^5",
