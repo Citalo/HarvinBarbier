@@ -139,7 +139,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
         <div className="px-5 py-5 border-b border-brand-gray-700/60 flex items-center justify-between">
           <Link href={baseUrl} onClick={() => setOpen(false)}>
             <Image
-              src="/logo.png"
+              src="/logo.webp"
               alt="Harvin The Lord Barbier"
               width={130}
               height={52}

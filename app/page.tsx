@@ -76,11 +76,21 @@ export default async function HomePage() {
       {/* HERO */}
       <section className="py-24 sm:py-36" style={{ backgroundColor: '#ffffffff' }}>
         <div className="container-app text-center">
+          <div className="mb-8 flex justify-center">
+            <Image
+              src="/logo.webp"
+              alt="Harvin The Lord Barbier"
+              width={300}
+              height={120}
+              className="object-contain"
+              priority
+            />
+          </div>
           <p className="text-xs font-semibold tracking-[0.25em] uppercase mb-6" style={{ color: '#888880' }}>
             Barbería Premium — Costa Rica
           </p>
-          <h1 className="font-serif text-5xl sm:text-7xl font-bold mb-8 text-balance leading-tight" style={{ color: '#111111' }}>
-            Harvin <em>The Lord</em><br />Barbier
+          <h1 className="font-serif text-4xl sm:text-5xl font-bold mb-8 text-balance leading-tight" style={{ color: '#111111' }}>
+            <em>The Lord</em><br />Barbier
           </h1>
           <p className="text-lg sm:text-xl max-w-xl mx-auto mb-12 leading-relaxed" style={{ color: '#666660' }}>
             Reservá tu cita online. Elegí tu barbero, tu servicio y tu horario en minutos. Sin llamadas, sin WhatsApp.
