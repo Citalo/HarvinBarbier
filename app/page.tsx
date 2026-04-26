@@ -62,48 +62,49 @@ export default async function HomePage() {
           </span>
           <div className="flex items-center gap-3">
             <Link href="/login" className="text-white/50 hover:text-white text-xs transition-colors">
-              Acceso panel
+              Panel
             </Link>
-            <Link href="/reservar">
+            {/* <Link href="/reservar">
               <button className="border border-white text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-colors">
                 Reservar cita
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </header>
 
       {/* HERO */}
-      <section className="py-24 sm:py-36" style={{ backgroundColor: '#ffffffff' }}>
-        <div className="container-app">
-          <div className="mb-12 flex items-center gap-6">
-            <Image
-              src="/logo.webp"
-              alt="The Lord Barbier"
-              width={80}
-              height={32}
-              className="object-contain flex-shrink-0"
-              priority
-            />
-            <div>
-              <p className="text-xs font-semibold tracking-[0.25em] uppercase" style={{ color: '#888880' }}>
-                Barbería Premium — Costa Rica
-              </p>
-              <h1 className="font-serif text-4xl sm:text-5xl font-bold text-balance leading-tight" style={{ color: '#111111' }}>
-                The Lord<br />Barbier
-              </h1>
-            </div>
-          </div>
-          <p className="text-lg sm:text-xl max-w-xl mb-12 leading-relaxed" style={{ color: '#666660' }}>
-            Reservá tu cita online. Elegí tu barbero, tu servicio y tu horario en minutos. Sin llamadas, sin WhatsApp.
+      <section className="py-24 sm:py-36 bg-white">
+        <div className="container-app text-center flex flex-col items-center">
+
+          {/* LOGO */}
+          <Image
+            src="/logo.webp"
+            alt="The Lord Barbier"
+            width={150}
+            height={150}
+            className="mb-6 object-contain"
+            priority
+          />
+
+          {/* TITULO */}
+          <h1 className="font-serif text-5xl sm:text-6xl font-bold mb-6 text-[#111111]">
+            The Lord Barbier
+          </h1>
+
+          {/* DESCRIPCIÓN */}
+          <p className="text-lg sm:text-xl max-w-2xl mb-10 leading-relaxed text-[#666660]">
+            Reservá tu cita online. Elegí tu barbero, tu servicio y tu horario en minutos.
+            Sin llamadas, sin WhatsApp.
           </p>
-          <div className="flex flex-col sm:flex-row items-start gap-4">
-            <Link href="/reservar">
-              <button className="bg-[#111111] text-white font-semibold tracking-wider uppercase text-sm px-10 py-4 hover:bg-[#333] transition-colors">
-                Reservar mi cita
-              </button>
-            </Link>
-          </div>
+
+          {/* BOTÓN */}
+          <Link href="/reservar">
+            <button className="bg-black text-white font-semibold px-12 py-5 rounded-full shadow-lg hover:scale-105 hover:bg-[#222] transition-all duration-300">
+              Reservar mi cita
+            </button>
+          </Link>
+
         </div>
       </section>
 
@@ -195,10 +196,10 @@ export default async function HomePage() {
 
           <div className="flex-shrink-0">
             <Image
-              src="/logo.webp"
+              src="/teloryn-logo.png"
               alt="The Lord Barbier"
-              width={100}
-              height={40}
+              width={150}
+              height={90}
               className="object-contain"
               loading="lazy"
               decoding="async"
@@ -210,7 +211,7 @@ export default async function HomePage() {
               © 2026 Teloryn · Plataforma desarrollada en Costa Rica
             </p>
             <p className="text-white/25 text-xs mt-1">
-              Creada por Brady Méndez C. y Santiago Pedraza P. · Hecha especialmente para esta barbería.
+              Creada por Brady Méndez Developer y Santiago Pedraza Developer · Personalizada para esta barbería.
             </p>
           </div>
 
