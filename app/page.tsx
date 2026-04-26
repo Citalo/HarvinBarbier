@@ -57,11 +57,23 @@ export default async function HomePage() {
       {/* HEADER — negro */}
       <header className="sticky top-0 z-40 bg-brand-black/95 backdrop-blur-sm border-b border-white/10">
         <div className="container-app flex items-center justify-between h-16">
-          <span className="font-serif text-lg font-bold text-white tracking-wide">
-            The Lord Barbier
-          </span>
+          <div className="flex items-center gap-2">
+            <Image
+              src="/logo.webp"
+              alt="The Lord Barbier"
+              width={50}
+              height={50}
+              className="object-contain"
+            />
+            <span className="font-serif text-lg font-bold text-white tracking-wide">
+              The Lord Barbier
+            </span>
+          </div>
           <div className="flex items-center gap-3">
-            <Link href="/login" className="text-white/50 hover:text-white text-xs transition-colors">
+            <Link
+              href="/login"
+              className="font-serif text-sm text-white border border-white px-4 py-2 rounded-full hover:bg-white hover:text-black transition-all"
+            >
               Panel
             </Link>
             {/* <Link href="/reservar">
@@ -74,15 +86,15 @@ export default async function HomePage() {
       </header>
 
       {/* HERO */}
-      <section className="py-24 sm:py-36 bg-white">
+      <section className="py-16 sm:py-20 bg-white">
         <div className="container-app text-center flex flex-col items-center">
 
           {/* LOGO */}
           <Image
             src="/logo.webp"
             alt="The Lord Barbier"
-            width={150}
-            height={150}
+            width={250}
+            height={250}
             className="mb-6 object-contain"
             priority
           />
@@ -121,7 +133,7 @@ export default async function HomePage() {
               Nuestro equipo
             </p>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold" style={{ color: '#111111' }}>
-              Maestros barberos
+              Nuestros barberos
             </h2>
           </div>
 
@@ -183,7 +195,7 @@ export default async function HomePage() {
             Reservá tu cita en menos de 2 minutos. Disponibilidad en tiempo real.
           </p>
           <Link href="/reservar">
-            <button className="border border-white text-white font-semibold tracking-wider uppercase text-sm px-12 py-4 hover:bg-white hover:text-black transition-colors">
+            <button className="border border-white text-white font-semibold tracking-wider uppercase text-sm px-12 py-4 rounded-full hover:bg-white hover:text-black transition-colors">
               Reservar ahora
             </button>
           </Link>
