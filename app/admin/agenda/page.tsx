@@ -153,50 +153,98 @@ export default function AdminAgenda() {
           </div>
         ) : (
           <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+            {/* Table header */}
+            <div className="hidden md:grid grid-cols-[140px_1fr_1fr_1fr_100px] gap-4 px-6 py-3 border-b border-gray-100 bg-gray-50">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Hora · Fecha</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Cliente</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Barbero</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Servicio</p>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Acción</p>
+            </div>
+
             <div className="divide-y divide-gray-100">
               {appointments.map((apt) => {
                 const barber = Array.isArray(apt.barber) ? apt.barber[0] : apt.barber
                 const service = Array.isArray(apt.service) ? apt.service[0] : apt.service
                 return (
-                  <div key={apt.id} className="px-6 py-4 hover:bg-gray-50 transition-colors">
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-sm font-mono font-bold text-zinc-800">
-                            {formatTime(apt.start_time)}
-                          </span>
-                          <span className="text-xs text-gray-400">
-                            {formatAppointmentDate(apt.date)}
-                          </span>
-                          <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${STATUS_CLASS[apt.status] ?? 'bg-gray-100 text-gray-600'}`}>
-                            {STATUS_LABEL[apt.status] ?? apt.status}
-                          </span>
+                  <div key={apt.id} className="px-6 py-4 hover:bg-gray-50/70 transition-colors">
+                    {/* Mobile layout */}
+                    <div className="md:hidden space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono font-bold text-zinc-900">{formatTime(apt.start_time)}</span>
+                          <span className="text-xs text-gray-400">{formatAppointmentDate(apt.date)}</span>
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-sm">
-                          <div>
-                            <p className="text-xs text-gray-400 mb-0.5">Cliente</p>
-                            <p className="font-medium text-gray-900">{apt.client?.first_name ?? '—'} {apt.client?.last_name ?? ''}</p>
-                            {apt.client?.phone && <p className="text-xs text-gray-400">{apt.client.phone}</p>}
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-400 mb-0.5">Barbero</p>
-                            <p className="font-medium text-gray-900">{barber?.name ?? '—'}</p>
-                          </div>
-                          <div>
-                            <p className="text-xs text-gray-400 mb-0.5">Servicio</p>
-                            <p className="font-medium text-gray-900">{service?.name ?? '—'}</p>
-                            {service?.price && <p className="text-xs font-semibold text-zinc-800">{formatPrice(service.price)}</p>}
-                          </div>
-                        </div>
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${STATUS_CLASS[apt.status] ?? 'bg-gray-100 text-gray-600'}`}>
+                          {STATUS_LABEL[apt.status] ?? apt.status}
+                        </span>
                       </div>
-                      {apt.status === 'pending' && (
-                        <button
-                          onClick={() => handleCancel(apt.id)}
-                          className="flex-shrink-0 px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                        >
-                          Cancelar
-                        </button>
-                      )}
+                      <div className="grid grid-cols-2 gap-3 text-sm">
+                        <div>
+                          <p className="text-xs text-gray-400 mb-0.5">Cliente</p>
+                          <p className="font-semibold text-gray-900">{apt.client?.first_name} {apt.client?.last_name}</p>
+                          {apt.client?.phone && <p className="text-xs text-gray-400">{apt.client.phone}</p>}
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-400 mb-0.5">Barbero</p>
+                          <p className="font-semibold text-gray-900">{barber?.name ?? '—'}</p>
+                        </div>
+                        <div>
+                          <p className="text-xs text-gray-400 mb-0.5">Servicio</p>
+                          <p className="font-semibold text-gray-900">{service?.name ?? '—'}</p>
+                          {service?.price && <p className="text-xs font-semibold text-zinc-700">{formatPrice(service.price)}</p>}
+                        </div>
+                        {apt.status === 'pending' && (
+                          <div className="flex items-end">
+                            <button onClick={() => handleCancel(apt.id)} className="text-xs font-medium text-red-600 bg-red-50 px-3 py-1.5 rounded-lg hover:bg-red-100 transition-colors">
+                              Cancelar
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Desktop layout — aligned grid */}
+                    <div className="hidden md:grid grid-cols-[140px_1fr_1fr_1fr_100px] gap-4 items-center">
+                      {/* Time + Date + Status */}
+                      <div className="min-w-0">
+                        <p className="font-mono font-bold text-sm text-zinc-900 leading-tight">{formatTime(apt.start_time)}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{formatAppointmentDate(apt.date)}</p>
+                        <span className={`inline-block mt-1.5 text-xs font-semibold px-2 py-0.5 rounded-full ${STATUS_CLASS[apt.status] ?? 'bg-gray-100 text-gray-600'}`}>
+                          {STATUS_LABEL[apt.status] ?? apt.status}
+                        </span>
+                      </div>
+
+                      {/* Client */}
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm text-gray-900 truncate">{apt.client?.first_name ?? '—'} {apt.client?.last_name ?? ''}</p>
+                        {apt.client?.phone && <p className="text-xs text-gray-400 mt-0.5">{apt.client.phone}</p>}
+                      </div>
+
+                      {/* Barber */}
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm text-gray-900 truncate">{barber?.name ?? '—'}</p>
+                      </div>
+
+                      {/* Service + Price */}
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm text-gray-900 truncate">{service?.name ?? '—'}</p>
+                        {service?.price && <p className="text-xs font-semibold text-zinc-700 mt-0.5">{formatPrice(service.price)}</p>}
+                      </div>
+
+                      {/* Action */}
+                      <div className="flex justify-end">
+                        {apt.status === 'pending' ? (
+                          <button
+                            onClick={() => handleCancel(apt.id)}
+                            className="px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors whitespace-nowrap"
+                          >
+                            Cancelar
+                          </button>
+                        ) : (
+                          <span className="text-xs text-gray-300">—</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 )

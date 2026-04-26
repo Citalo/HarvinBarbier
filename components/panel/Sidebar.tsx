@@ -129,25 +129,30 @@ export default function Sidebar({ userRole }: SidebarProps) {
 
       {/* Sidebar */}
       <aside className={`
-        w-64 bg-brand-gray-900 border-r border-brand-gray-700/60
+        w-64 bg-[#111111] border-r border-white/8
         fixed left-0 top-0 h-screen flex flex-col z-50
         transition-transform duration-300 ease-out
         ${open ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0
       `}>
         {/* Logo */}
-        <div className="px-5 py-5 border-b border-brand-gray-700/60 flex items-center justify-between">
-          <Link href={baseUrl} onClick={() => setOpen(false)}>
-            <Image
-              src="/logo.webp"
-              alt="The Lord Barbier"
-              width={130}
-              height={52}
-              className="object-contain brightness-0 invert"
-            />
+        <div className="px-6 py-5 border-b border-white/8 flex items-center justify-between">
+          <Link href={baseUrl} onClick={() => setOpen(false)} className="flex items-center gap-2.5">
+            <div className="w-9 h-9 flex items-center justify-center flex-shrink-0">
+              <Image
+                src="/logo.webp"
+                alt="The Lord Barbier"
+                width={36}
+                height={36}
+                className="object-contain brightness-0 invert"
+              />
+            </div>
+            <span className="text-white font-semibold text-sm tracking-tight leading-tight">
+              The Lord<br />Barbier
+            </span>
           </Link>
           <button
-            className="md:hidden text-white/40 hover:text-white p-1 transition-colors"
+            className="md:hidden text-white/30 hover:text-white p-1 transition-colors"
             onClick={() => setOpen(false)}
             aria-label="Cerrar menú"
           >
@@ -158,17 +163,21 @@ export default function Sidebar({ userRole }: SidebarProps) {
         </div>
 
         {/* User info */}
-        <div className="px-5 py-4 border-b border-brand-gray-700/60 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-zinc-700 border border-zinc-600 flex items-center justify-center flex-shrink-0">
-            <span className="text-xs font-bold text-white">{initials}</span>
-          </div>
-          <div className="min-w-0">
-            <p className="text-sm font-medium text-white truncate">{roleLabel}</p>
+        <div className="px-4 py-3 border-b border-white/8">
+          <div className="flex items-center gap-3 px-2 py-2 rounded-lg bg-white/5">
+            <div className="w-7 h-7 rounded-full bg-zinc-600 flex items-center justify-center flex-shrink-0">
+              <span className="text-xs font-bold text-white">{initials}</span>
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-semibold text-white/90 truncate">{roleLabel}</p>
+              <p className="text-xs text-white/40 truncate">Panel de control</p>
+            </div>
           </div>
         </div>
 
         {/* Navegación */}
-        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto scrollbar-thin">
+        <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto scrollbar-thin">
+          <p className="text-xs font-semibold text-white/25 uppercase tracking-widest px-3 mb-2">Menú</p>
           {links.map(({ href, label, icon }) => {
             const isActive = pathname === href
             return (
@@ -180,29 +189,29 @@ export default function Sidebar({ userRole }: SidebarProps) {
                   flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                   transition-all duration-150
                   ${isActive
-                    ? 'bg-zinc-700 text-white shadow-sm'
-                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                    ? 'bg-white/10 text-white'
+                    : 'text-white/50 hover:text-white/90 hover:bg-white/5'
                   }
                 `}
               >
-                <span className={isActive ? 'text-white' : 'text-white/40'}>
+                <span className={`flex-shrink-0 ${isActive ? 'text-white' : 'text-white/35'}`}>
                   {icon}
                 </span>
-                {label}
+                <span className="truncate">{label}</span>
               </Link>
             )
           })}
         </nav>
 
         {/* Logout */}
-        <div className="px-3 py-4 border-t border-brand-gray-700/60">
+        <div className="px-3 py-4 border-t border-white/8">
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 w-full px-3 py-2.5 rounded-lg text-sm font-medium
-              text-white/40 hover:text-white hover:bg-white/5 transition-all duration-150"
+              text-white/35 hover:text-white/80 hover:bg-white/5 transition-all duration-150"
           >
-            {icons.logout}
-            Cerrar sesión
+            <span className="flex-shrink-0">{icons.logout}</span>
+            <span>Cerrar sesión</span>
           </button>
         </div>
       </aside>
