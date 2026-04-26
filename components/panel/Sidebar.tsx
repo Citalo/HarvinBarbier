@@ -159,8 +159,8 @@ export default function Sidebar({ userRole }: SidebarProps) {
 
         {/* User info */}
         <div className="px-5 py-4 border-b border-brand-gray-700/60 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-brand-gold/20 border border-brand-gold/30 flex items-center justify-center flex-shrink-0">
-            <span className="text-xs font-bold text-brand-gold">{initials}</span>
+          <div className="w-8 h-8 rounded-full bg-zinc-700 border border-zinc-600 flex items-center justify-center flex-shrink-0">
+            <span className="text-xs font-bold text-white">{initials}</span>
           </div>
           <div className="min-w-0">
             <p className="text-sm font-medium text-white truncate">{roleLabel}</p>
@@ -180,7 +180,7 @@ export default function Sidebar({ userRole }: SidebarProps) {
                   flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
                   transition-all duration-150
                   ${isActive
-                    ? 'bg-brand-gold text-white shadow-sm'
+                    ? 'bg-zinc-700 text-white shadow-sm'
                     : 'text-white/60 hover:text-white hover:bg-white/5'
                   }
                 `}

@@ -96,7 +96,7 @@ export function TimeSlotPicker({
 
       {loading ? (
         <div className="flex items-center justify-center py-16">
-          <div className="w-8 h-8 border-2 border-brand-gold border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-zinc-700 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : error ? (
         <div className="text-center py-10">
@@ -123,8 +123,8 @@ export function TimeSlotPicker({
                 className={`
                   py-3 rounded-xl text-sm font-medium transition-all duration-150 border
                   ${isSelected
-                    ? 'bg-brand-gold text-white border-brand-gold font-bold'
-                    : 'border-gray-200 text-gray-900 hover:border-brand-gold hover:bg-brand-gold/10'
+                    ? 'bg-zinc-800 text-white border-zinc-800 font-bold'
+                    : 'border-gray-200 text-gray-900 hover:border-zinc-700 hover:bg-zinc-100'
                   }
                 `}
               >
@@ -137,7 +137,7 @@ export function TimeSlotPicker({
 
       {!loading && !error && slots.length > 0 && (
         <div className="flex items-center gap-1.5 text-brand-gray-600 text-xs mb-6">
-          <span className="w-2 h-2 rounded-full bg-brand-gold animate-pulse inline-block" />
+          <span className="w-2 h-2 rounded-full bg-zinc-500 animate-pulse inline-block" />
           Disponibilidad en tiempo real
         </div>
       )}

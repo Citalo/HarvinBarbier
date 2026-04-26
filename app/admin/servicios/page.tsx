@@ -228,7 +228,7 @@ export default function AdminServicios() {
                         </svg>
                         {service.duration_minutes} min
                       </span>
-                      <span className="text-xs font-semibold text-brand-gold">
+                      <span className="text-xs font-semibold text-zinc-700">
                         {formatPrice(service.price)}
                       </span>
                     </div>

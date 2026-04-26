@@ -103,7 +103,7 @@ export default function BarberAgenda() {
                   <div className="flex-1 min-w-0">
                     {/* Hora + badge */}
                     <div className="flex items-center gap-3 mb-2">
-                      <span className="text-xl font-bold text-brand-gold font-mono">
+                      <span className="text-xl font-bold text-zinc-800 font-mono">
                         {formatTime(apt.start_time)}
                       </span>
                       <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${STATUS_CLASS[apt.status] ?? 'bg-gray-100 text-gray-600'}`}>

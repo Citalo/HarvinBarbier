@@ -162,7 +162,7 @@ export default function AdminAgenda() {
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2">
-                          <span className="text-sm font-mono font-bold text-brand-gold">
+                          <span className="text-sm font-mono font-bold text-zinc-800">
                             {formatTime(apt.start_time)}
                           </span>
                           <span className="text-xs text-gray-400">
@@ -185,7 +185,7 @@ export default function AdminAgenda() {
                           <div>
                             <p className="text-xs text-gray-400 mb-0.5">Servicio</p>
                             <p className="font-medium text-gray-900">{service?.name ?? '—'}</p>
-                            {service?.price && <p className="text-xs font-semibold text-brand-gold">{formatPrice(service.price)}</p>}
+                            {service?.price && <p className="text-xs font-semibold text-zinc-800">{formatPrice(service.price)}</p>}
                           </div>
                         </div>
                       </div>

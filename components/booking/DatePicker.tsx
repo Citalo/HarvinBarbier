@@ -138,9 +138,9 @@ export function DatePicker({ selectedDate, workingDays, onSelect, onNext, onBack
                 className={`
                   aspect-square flex items-center justify-center rounded-lg text-sm font-medium transition-all duration-150
                   ${isSelected
-                    ? 'bg-brand-gold text-white font-bold'
+                    ? 'bg-zinc-800 text-white font-bold'
                     : isToday && !disabled
-                      ? 'border border-brand-gold text-brand-gold hover:bg-brand-gold/10'
+                      ? 'border border-zinc-700 text-zinc-800 hover:bg-zinc-100'
                       : disabled
                         ? 'text-gray-300 cursor-not-allowed'
                         : 'text-gray-900 hover:bg-gray-100'

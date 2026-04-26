@@ -133,7 +133,7 @@ function Field({
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1.5">
         {label}
-        {required && <span className="text-brand-gold ml-0.5">*</span>}
+        {required && <span className="text-zinc-500 ml-0.5">*</span>}
       </label>
       {children}
       {error && <p className="mt-1 text-xs text-status-cancelled">{error}</p>}

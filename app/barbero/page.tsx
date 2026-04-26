@@ -71,7 +71,7 @@ export default async function BarberDashboard() {
           ].map(({ label, value }) => (
             <div key={label} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm text-center">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{label}</p>
-              <p className="text-4xl font-bold text-brand-gold">{value}</p>
+              <p className="text-4xl font-bold text-zinc-800">{value}</p>
             </div>
           ))}
         </div>
@@ -131,7 +131,7 @@ export default async function BarberDashboard() {
               {upcomingAppointments.map((apt) => (
                 <div key={apt.id} className="flex items-center gap-4 px-6 py-3.5 hover:bg-gray-50 transition-colors">
                   <div className="flex-shrink-0 text-center min-w-[48px]">
-                    <p className="text-xs font-semibold text-brand-gold uppercase">
+                    <p className="text-xs font-semibold text-zinc-500 uppercase">
                       {new Date(apt.date + 'T12:00:00').toLocaleDateString('es', { weekday: 'short' })}
                     </p>
                     <p className="text-lg font-bold text-gray-900 leading-none">

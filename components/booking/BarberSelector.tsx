@@ -26,12 +26,13 @@ export function BarberSelector({ barbers, selectedId, onSelect, onNext }: Barber
             <button
               key={barber.id}
               onClick={() => onSelect(barber)}
-              className={`selection-card flex flex-col items-center text-center p-4 ${isSelected ? 'selected' : ''}`}
-            >
+              className={`selection-card flex flex-col items-center text-center p-4
+                ${isSelected ? 'border-zinc-900 bg-zinc-50 ring-1 ring-zinc-900' : ''}
+              `}            >
               <div className={`
                 relative w-20 h-20 rounded-full overflow-hidden mb-3
                 border-2 transition-colors duration-200
-                ${isSelected ? 'border-brand-gold' : 'border-gray-200'}
+                ${isSelected ? 'border-zinc-700' : 'border-gray-200'}
               `}>
                 {barber.avatar_url ? (
                   <Image
@@ -49,7 +50,7 @@ export function BarberSelector({ barbers, selectedId, onSelect, onNext }: Barber
                   </div>
                 )}
               </div>
-              <span className={`text-sm font-semibold leading-tight ${isSelected ? 'text-brand-gold' : 'text-gray-900'}`}>
+              <span className={`text-sm font-semibold leading-tight ${isSelected ? 'text-zinc-700' : 'text-gray-900'}`}>
                 {barber.name}
               </span>
               {barber.bio && (

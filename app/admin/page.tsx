@@ -76,7 +76,7 @@ export default async function AdminDashboard() {
           {statCards.map(({ label, value, gold }) => (
             <div key={label} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{label}</p>
-              <p className={`text-3xl font-bold leading-none ${gold ? 'text-brand-gold' : 'text-gray-900'}`}>
+              <p className={`text-3xl font-bold leading-none ${gold ? 'text-zinc-800' : 'text-gray-900'}`}>
                 {value}
               </p>
             </div>
@@ -96,8 +96,8 @@ export default async function AdminDashboard() {
               {Object.values(stats).map((stat, idx) => (
                 <div key={idx} className="flex items-center justify-between px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-brand-gold/10 flex items-center justify-center">
-                      <span className="text-xs font-bold text-brand-gold">
+                    <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center">
+                      <span className="text-xs font-bold text-zinc-700">
                         {stat.name.charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -110,7 +110,7 @@ export default async function AdminDashboard() {
                     </div>
                     <div>
                       <p className="text-xs text-gray-400">Ingresos</p>
-                      <p className="font-bold text-brand-gold">{formatPrice(stat.revenue)}</p>
+                      <p className="font-bold text-zinc-800">{formatPrice(stat.revenue)}</p>
                     </div>
                   </div>
                 </div>

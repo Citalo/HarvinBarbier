@@ -11,9 +11,6 @@ const config: Config = {
       colors: {
         brand: {
           black: "#0A0A0A",
-          gold: "#C8A86A",
-          "gold-light": "#DFC080",
-          "gold-dark": "#A07840",
           cream: "#F8F5F0",
           "cream-dark": "#EDE8E0",
           gray: {

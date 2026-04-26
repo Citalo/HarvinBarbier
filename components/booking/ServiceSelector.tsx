@@ -36,7 +36,7 @@ export function ServiceSelector({ services, selectedId, onSelect, onNext, onBack
               >
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
-                    <p className={`font-semibold text-sm ${isSelected ? 'text-brand-gold' : 'text-gray-900'}`}>
+                    <p className={`font-semibold text-sm ${isSelected ? 'text-zinc-900' : 'text-gray-900'}`}>
                       {service.name}
                     </p>
                     {service.description && (
@@ -53,13 +53,13 @@ export function ServiceSelector({ services, selectedId, onSelect, onNext, onBack
                     </p>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <span className={`text-xl font-bold ${isSelected ? 'text-brand-gold' : 'text-brand-gold'}`}>
+                    <span className="text-xl font-bold text-zinc-800">
                       {formatPrice(service.price)}
                     </span>
                   </div>
                 </div>
                 {isSelected && (
-                  <div className="mt-2 flex items-center gap-1.5 text-brand-gold text-xs font-medium">
+                  <div className="mt-2 flex items-center gap-1.5 text-zinc-700 text-xs font-medium">
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M5 13l4 4L19 7" />
                     </svg>

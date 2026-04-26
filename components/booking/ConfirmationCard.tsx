@@ -35,16 +35,16 @@ export function ConfirmationCard({ appointment }: ConfirmationCardProps) {
       {/* Tarjeta que se convierte a imagen */}
       <div
         ref={cardRef}
-        className="bg-brand-gray-900 rounded-2xl p-6 border border-brand-gold/30 max-w-sm mx-auto"
+        className="bg-zinc-900 rounded-2xl p-6 border border-zinc-700 max-w-sm mx-auto"
         style={{ fontFamily: 'Inter, system-ui, sans-serif' }}
       >
         {/* Header */}
         <div className="text-center mb-5">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-gold/20 mb-3">
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-zinc-700 mb-3">
             <span className="text-2xl">✂</span>
           </div>
-          <p className="text-brand-gold text-xs font-medium tracking-widest uppercase">
-            Harvin The Lord Barbier
+          <p className="text-zinc-300 text-xs font-medium tracking-widest uppercase">
+            The Lord Barbier
           </p>
           <h3 className="text-brand-cream font-bold text-xl mt-1">
             Tu cita está confirmada
@@ -68,7 +68,7 @@ export function ConfirmationCard({ appointment }: ConfirmationCardProps) {
         {/* Footer de la tarjeta */}
         <div className="text-center">
           <p className="text-brand-gray-400 text-xs">¿Necesitás cancelar o consultar?</p>
-          <p className="text-brand-gold text-sm font-medium mt-1">+506 8888-7777</p>
+          <p className="text-zinc-300 text-sm font-medium mt-1">+506 8888-7777</p>
           <p className="text-brand-gray-600 text-xs mt-3">Costa Rica</p>
         </div>
       </div>

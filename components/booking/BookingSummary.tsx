@@ -99,7 +99,7 @@ export function BookingSummary({
         <div className="gold-divider" />
         <div className="flex justify-between items-center">
           <span className="text-brand-gray-400 text-sm font-medium">Total</span>
-          <span className="text-brand-gold text-2xl font-bold">{formatPrice(service.price)}</span>
+          <span className="text-white text-2xl font-bold">{formatPrice(service.price)}</span>
         </div>
       </div>
 

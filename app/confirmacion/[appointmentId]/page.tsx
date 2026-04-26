@@ -41,8 +41,8 @@ export default async function ConfirmacionPage({ params }: PageProps) {
       {/* Header */}
       <header className="bg-brand-black/90 backdrop-blur-sm border-b border-brand-gray-800 sticky top-0 z-40">
         <div className="container-app h-14 flex items-center justify-center">
-          <span className="font-serif text-brand-gold font-bold text-sm">
-            Harvin The Lord Barbier
+          <span className="font-serif text-white font-bold text-sm">
+            The Lord Barbier
           </span>
         </div>
       </header>

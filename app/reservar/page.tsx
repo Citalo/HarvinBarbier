@@ -143,8 +143,8 @@ export default function ReservarPage() {
           >
             ← Inicio
           </button>
-          <span className="font-serif text-brand-gold font-bold text-sm">
-            Harvin The Lord Barbier
+          <span className="font-serif text-white font-bold text-sm">
+            The Lord Barbier
           </span>
           <div className="w-14" />
         </div>
@@ -159,7 +159,7 @@ export default function ReservarPage() {
                 <div className="flex flex-col items-center flex-1">
                   <div className={`
                     w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors
-                    ${s < step ? 'bg-brand-gold text-brand-black' : s === step ? 'bg-brand-gold/20 border-2 border-brand-gold text-brand-gold' : 'bg-brand-gray-800 text-brand-gray-600'}
+                    ${s < step ? 'bg-zinc-800 text-white' : s === step ? 'bg-zinc-700/30 border-2 border-zinc-600 text-zinc-200' : 'bg-zinc-700 text-zinc-400'}
                   `}>
                     {s < step ? '✓' : s}
                   </div>
@@ -168,7 +168,7 @@ export default function ReservarPage() {
                   </span>
                 </div>
                 {s < 6 && (
-                  <div className={`h-0.5 flex-1 mx-1 ${s < step ? 'bg-brand-gold' : 'bg-brand-gray-800'}`} />
+                  <div className={`h-0.5 flex-1 mx-1 ${s < step ? 'bg-zinc-500' : 'bg-zinc-700'}`} />
                 )}
               </div>
             ))}
@@ -180,7 +180,7 @@ export default function ReservarPage() {
       <main className="container-app py-8 max-w-xl mx-auto animate-fade-in">
         {loadingBarbers ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-8 h-8 border-2 border-brand-gold border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-zinc-700 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : step === 1 ? (
           <BarberSelector

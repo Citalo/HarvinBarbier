@@ -13,13 +13,16 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<Variant, string> = {
   primary:
-    'bg-brand-gold text-brand-black font-semibold hover:bg-brand-gold-light active:bg-brand-gold-dark disabled:opacity-50',
+    'bg-zinc-800 text-white font-semibold hover:bg-zinc-900 active:bg-black disabled:opacity-50',
+
   secondary:
-    'border border-brand-gold text-brand-gold font-semibold hover:bg-brand-gold/10 active:bg-brand-gold/20 disabled:opacity-50',
+    'border border-zinc-700 text-zinc-800 font-semibold hover:bg-zinc-100 active:bg-zinc-200 disabled:opacity-50',
+
   ghost:
-    'text-brand-gray-400 hover:text-brand-cream hover:bg-brand-gray-800 disabled:opacity-50',
+    'text-zinc-500 hover:text-black hover:bg-zinc-100 disabled:opacity-50',
+
   danger:
-    'bg-status-cancelled text-white font-semibold hover:bg-red-700 active:bg-red-800 disabled:opacity-50',
+    'bg-red-600 text-white font-semibold hover:bg-red-700 active:bg-red-800 disabled:opacity-50',
 }
 
 const sizeClasses: Record<Size, string> = {
@@ -44,7 +47,7 @@ export function Button({
       className={`
         inline-flex items-center justify-center gap-2
         transition-all duration-200 cursor-pointer
-        focus:outline-none focus:ring-2 focus:ring-brand-gold focus:ring-offset-2 focus:ring-offset-brand-black
+        focus:outline-none focus:ring-2 focus:ring-zinc-700 focus:ring-offset-2
         ${variantClasses[variant]}
         ${sizeClasses[size]}
         ${fullWidth ? 'w-full' : ''}
