@@ -75,7 +75,12 @@ export function ConfirmationCard({ appointment }: ConfirmationCardProps) {
 
       {/* Botón de descarga (fuera de la tarjeta, no aparece en la imagen) */}
       <div className="mt-6 flex flex-col items-center gap-3">
-        <Button onClick={handleDownload} variant="secondary" size="lg" fullWidth>
+        <Button
+          onClick={handleDownload}
+          size="lg"
+          fullWidth
+          className="bg-white text-black border border-black hover:bg-black hover:text-white transition-colors"
+        >
           ↓ Descargar confirmación
         </Button>
         <p className="text-brand-gray-600 text-xs">

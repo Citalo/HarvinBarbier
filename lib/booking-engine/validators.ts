@@ -51,7 +51,7 @@ export function validateDateNotTooFarAhead(date: string): ValidationResult {
 }
 
 // Verifica si un slot se solapa con un bloque de tiempo.
-// Regla: block.start < slot.end AND block.end > slot.start
+// Regla: slot.start < block.end AND slot.end > block.start
 export function slotOverlapsBlock(
   slotStart: string,
   slotEnd: string,
@@ -65,7 +65,7 @@ export function slotOverlapsBlock(
   const blockStartMin = timeToMinutes(block.startTime)
   const blockEndMin = timeToMinutes(block.endTime)
 
-  return blockStartMin < slotEndMin && blockEndMin > slotStartMin
+  return slotStartMin < blockEndMin && slotEndMin > blockStartMin
 }
 
 // Verifica si un slot ya pasó (para el día de hoy)

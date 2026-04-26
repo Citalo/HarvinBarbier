@@ -1,5 +1,7 @@
 import { TimeRange, TimeSlot } from './types'
 
+const SLOT_INTERVAL_MINUTES = 15
+
 // Convierte "HH:MM" a minutos desde medianoche
 function timeToMinutes(time: string): number {
   const [hours, minutes] = time.split(':').map(Number)
@@ -35,7 +37,7 @@ export function generateTimeSlots(
       isAvailable: true,
     })
 
-    currentStart = currentEnd
+    currentStart += SLOT_INTERVAL_MINUTES
   }
 
   return slots

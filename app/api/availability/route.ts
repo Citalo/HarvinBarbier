@@ -50,7 +50,7 @@ export async function GET(request: Request) {
 
       supabase
         .from('appointments')
-        .select('start_time, end_time')
+        .select('start_time, service:services(duration_minutes)')
         .eq('barber_id', barberId)
         .eq('date', date)
         .eq('status', 'pending'),
@@ -87,10 +87,18 @@ export async function GET(request: Request) {
     endTime: b.end_time ? b.end_time.slice(0, 5) : null,
   }))
 
-  const existingAppointments: TimeRange[] = ((appointmentsResult.data ?? []) as { start_time: string; end_time: string }[]).map((a) => ({
-    startTime: a.start_time.slice(0, 5),
-    endTime: a.end_time.slice(0, 5),
-  }))
+  const existingAppointments: TimeRange[] = ((appointmentsResult.data ?? []) as {
+    start_time: string
+    service: { duration_minutes: number } | { duration_minutes: number }[] | null
+  }[]).map((a) => {
+    const startTime = a.start_time.slice(0, 5)
+    const svc = Array.isArray(a.service) ? a.service[0] : a.service
+    const durationMin = svc?.duration_minutes ?? 60
+    const [h, m] = startTime.split(':').map(Number)
+    const endMin = h * 60 + m + durationMin
+    const endTime = `${String(Math.floor(endMin / 60)).padStart(2, '0')}:${String(endMin % 60).padStart(2, '0')}`
+    return { startTime, endTime }
+  })
 
   const result = calculateAvailableSlots({
     workingSchedules,

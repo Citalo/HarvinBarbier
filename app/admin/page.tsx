@@ -9,9 +9,22 @@ export const metadata = {
 
 export default async function AdminDashboard() {
   const supabase = createAdminClient()
-  const today = new Date().toISOString().split('T')[0]
-  const monthStart = new Date(new Date().setDate(1)).toISOString().split('T')[0]
-  const weekEnd = new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0]
+  const now = new Date()
+  const today = now.toISOString().split('T')[0]
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+  const nextMonthStart = new Date(now.getFullYear(), now.getMonth() + 1, 1).toISOString().split('T')[0]
+  const TIMEZONE = 'America/Costa_Rica'
+  const todayCR = now.toLocaleDateString('en-CA', { timeZone: TIMEZONE })
+  const [crY, crMo, crD] = todayCR.split('-').map(Number)
+  // Sakamoto's algorithm — 0=Sun, 1=Mon, ..., 6=Sat — no locale string parsing
+  const t = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4]
+  const sy = crMo < 3 ? crY - 1 : crY
+  const dow = (sy + Math.floor(sy / 4) - Math.floor(sy / 100) + Math.floor(sy / 400) + t[crMo - 1] + crD) % 7
+  const daysFromMonday = (dow + 6) % 7
+  const crDateStr = (d: number) =>
+    new Date(crY, crMo - 1, d, 12).toLocaleDateString('en-CA', { timeZone: TIMEZONE })
+  const startOfWeek = crDateStr(crD - daysFromMonday)      // lunes
+  const endOfWeek   = crDateStr(crD - daysFromMonday + 6)  // domingo
 
   const [
     { data: todayAppointments },
@@ -24,20 +37,17 @@ export default async function AdminDashboard() {
       .from('appointments')
       .select('*, barber:barbers(name), client:clients(first_name, last_name), service:services(name)')
       .eq('date', today)
-      .in('status', ['pending', 'completed'])
       .order('start_time', { ascending: true }),
     supabase
       .from('appointments')
-      .select('*', { count: 'exact' })
-      .gte('date', today)
-      .lte('date', weekEnd)
-      .in('status', ['pending', 'completed']),
+      .select('*', { count: 'exact', head: true })
+      .gte('date', startOfWeek)
+      .lte('date', endOfWeek),
     supabase
       .from('appointments')
-      .select('*', { count: 'exact' })
+      .select('*', { count: 'exact', head: true })
       .gte('date', monthStart)
-      .lte('date', today)
-      .in('status', ['pending', 'completed']),
+      .lt('date', nextMonthStart)
     // TODO: PRO feature (monthly revenue / analytics)
     // supabase
     //   .from('appointments')
@@ -51,6 +61,13 @@ export default async function AdminDashboard() {
   // const stats: Record<string, { name: string; count: number; revenue: number }> = {}
   // barberStats?.forEach((apt) => { ... })
   // const totalRevenue = Object.values(stats).reduce((s, b) => s + b.revenue, 0)
+
+  const STATUS_MAP: Record<string, { label: string; className: string }> = {
+    pending: { label: 'Pendiente', className: 'bg-blue-50 text-blue-700 border border-blue-100' },
+    completed: { label: 'Completada', className: 'bg-emerald-50 text-emerald-700 border border-emerald-100' },
+    cancelled: { label: 'Cancelada', className: 'bg-red-50 text-red-700 border border-red-100' },
+    no_show: { label: 'No asistió', className: 'bg-orange-50 text-orange-700 border border-orange-100' },
+  }
 
   const statCards = [
     { label: 'Citas hoy', value: todayAppointments?.length ?? 0 },
@@ -108,12 +125,8 @@ export default async function AdminDashboard() {
                         </p>
                       </div>
                     </div>
-                    <span className={`flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full ${
-                      apt.status === 'pending'
-                        ? 'bg-blue-50 text-blue-700 border border-blue-100'
-                        : 'bg-emerald-50 text-emerald-700 border border-emerald-100'
-                    }`}>
-                      {apt.status === 'pending' ? 'Pendiente' : 'Completada'}
+                    <span className={`flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full ${STATUS_MAP[apt.status]?.className ?? 'bg-gray-100 text-gray-600 border border-gray-200'}`}>
+                      {STATUS_MAP[apt.status]?.label ?? apt.status}
                     </span>
                   </div>
                 )
@@ -133,9 +146,9 @@ export default async function AdminDashboard() {
             className="flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 font-medium py-3.5 px-4 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-sm"
           >
             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-              <circle cx="9" cy="7" r="4"/>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
             Barberos
           </Link>
@@ -144,10 +157,10 @@ export default async function AdminDashboard() {
             className="flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 font-medium py-3.5 px-4 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-all text-sm"
           >
             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
-              <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
-              <line x1="20" y1="4" x2="8.12" y2="15.88"/>
-              <line x1="14.47" y1="14.48" x2="20" y2="20"/>
-              <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+              <circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" />
+              <line x1="20" y1="4" x2="8.12" y2="15.88" />
+              <line x1="14.47" y1="14.48" x2="20" y2="20" />
+              <line x1="8.12" y1="8.12" x2="12" y2="12" />
             </svg>
             Servicios
           </Link>
@@ -156,9 +169,9 @@ export default async function AdminDashboard() {
             className="flex items-center justify-center gap-2 bg-gray-900 text-white font-medium py-3.5 px-4 rounded-xl hover:bg-gray-800 transition-all text-sm"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.75" viewBox="0 0 24 24">
-              <rect x="3" y="4" width="18" height="18" rx="2"/>
-              <line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/>
-              <line x1="3" y1="10" x2="21" y2="10"/>
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
             Agenda Global
           </Link>

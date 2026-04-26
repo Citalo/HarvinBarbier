@@ -16,7 +16,7 @@ const variantClasses: Record<Variant, string> = {
     'bg-zinc-800 text-white font-semibold hover:bg-zinc-900 active:bg-black disabled:opacity-50',
 
   secondary:
-    'border border-zinc-700 text-zinc-800 font-semibold hover:bg-zinc-100 active:bg-zinc-200 disabled:opacity-50',
+    'border border-white/80 text-white font-semibold bg-transparent hover:bg-white hover:text-black hover:border-white transition-all duration-200 rounded-full px-5 py-2 text-sm',
 
   ghost:
     'text-zinc-500 hover:text-black hover:bg-zinc-100 disabled:opacity-50',

@@ -139,7 +139,7 @@ export default function ReservarPage() {
         <div className="container-app h-14 flex items-center justify-between">
           <button
             onClick={() => router.push('/')}
-            className="text-brand-gray-400 hover:text-brand-cream transition-colors text-sm"
+            className="border border-white text-white px-4 py-1.5 rounded-full text-sm hover:bg-white hover:text-black transition-colors"
           >
             ← Inicio
           </button>

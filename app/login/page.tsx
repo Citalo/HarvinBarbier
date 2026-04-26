@@ -43,11 +43,10 @@ function LoginForm() {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
-
+      <div className="w-full rounded-3xl max-w-md border-2 border-black p-10">
         <div className="text-center mb-10">
-          <h1 className="font-serif text-3xl font-bold text-[#111111] mb-1">Harvin</h1>
-          <p className="text-[#999999] text-sm tracking-widest uppercase">The Lord Barbier</p>
+          <h1 className="font-serif text-3xl font-bold text-[#111111] mb-1">Inicio de Sesión</h1>
+          <p className="text-[#999999] text-sm tracking-widest uppercase">Para Barberos</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -89,14 +88,19 @@ function LoginForm() {
         </form>
 
         <div className="mt-8 pt-6 border-t border-[#EEEEEE]">
-          <p className="text-xs text-[#AAAAAA] mb-2">Credenciales demo:</p>
+          <p className="text-xs text-[#AAAAAA] mb-2">ADVERTENCIA: SI ERES CLIENTE NO NESESITAS INICIAR SESIÓN</p>
           <p className="text-xs text-[#888888] mb-1"><span className="font-mono">harvin@harvin.cr</span> — Barbero</p>
           <p className="text-xs text-[#888888]"><span className="font-mono">admin@harvin.cr</span> — Admin</p>
           <p className="text-xs text-[#888888] mt-1">Contraseña: <span className="font-mono">Password123!</span></p>
         </div>
 
         <div className="mt-6 text-center">
-          <a href="/" className="text-[#AAAAAA] text-sm hover:text-[#111111] transition-colors">← Volver a inicio</a>
+          <a
+            href="/"
+            className="inline-block border border-black text-black px-6 py-2 rounded-full text-sm hover:bg-black hover:text-white transition-colors"
+          >
+            ← Volver a inicio
+          </a>
         </div>
       </div>
     </div>
