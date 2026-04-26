@@ -1,5 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/server'
-import { formatTime, formatPrice } from '@/lib/utils/formatting'
+import { formatTime } from '@/lib/utils/formatting'
 import Header from '@/components/panel/Header'
 import Link from 'next/link'
 
@@ -17,7 +17,8 @@ export default async function AdminDashboard() {
     { data: todayAppointments },
     { count: weekCount },
     { count: monthCount },
-    { data: barberStats },
+    // TODO: PRO feature (monthly revenue / analytics)
+    // { data: barberStats },
   ] = await Promise.all([
     supabase
       .from('appointments')
@@ -37,32 +38,24 @@ export default async function AdminDashboard() {
       .gte('date', monthStart)
       .lte('date', today)
       .in('status', ['pending', 'completed']),
-    supabase
-      .from('appointments')
-      .select('barber_id, barber:barbers(name), service:services(price)')
-      .gte('date', monthStart)
-      .lte('date', today)
-      .eq('status', 'completed'),
+    // TODO: PRO feature (monthly revenue / analytics)
+    // supabase
+    //   .from('appointments')
+    //   .select('barber_id, barber:barbers(name), service:services(price)')
+    //   .gte('date', monthStart)
+    //   .lte('date', today)
+    //   .eq('status', 'completed'),
   ])
 
-  const stats: Record<string, { name: string; count: number; revenue: number }> = {}
-  barberStats?.forEach((apt) => {
-    const barber = Array.isArray(apt.barber) ? apt.barber[0] : apt.barber
-    const service = Array.isArray(apt.service) ? apt.service[0] : apt.service
-    if (barber) {
-      if (!stats[apt.barber_id]) stats[apt.barber_id] = { name: barber.name, count: 0, revenue: 0 }
-      stats[apt.barber_id].count++
-      if (service?.price) stats[apt.barber_id].revenue += Number(service.price)
-    }
-  })
-
-  const totalRevenue = Object.values(stats).reduce((s, b) => s + b.revenue, 0)
+  // TODO: PRO feature (monthly revenue / analytics)
+  // const stats: Record<string, { name: string; count: number; revenue: number }> = {}
+  // barberStats?.forEach((apt) => { ... })
+  // const totalRevenue = Object.values(stats).reduce((s, b) => s + b.revenue, 0)
 
   const statCards = [
-    { label: 'Citas hoy', value: todayAppointments?.length ?? 0, icon: '📅' },
-    { label: 'Esta semana', value: weekCount ?? 0, icon: '📊' },
-    { label: 'Este mes', value: monthCount ?? 0, icon: '📈' },
-    { label: 'Ingresos mes', value: formatPrice(totalRevenue), gold: true, icon: '💰' },
+    { label: 'Citas hoy', value: todayAppointments?.length ?? 0 },
+    { label: 'Esta semana', value: weekCount ?? 0 },
+    { label: 'Este mes', value: monthCount ?? 0 },
   ]
 
   return (
@@ -72,52 +65,17 @@ export default async function AdminDashboard() {
       <div className="p-4 md:p-8 space-y-8">
 
         {/* Stat cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {statCards.map(({ label, value, gold }) => (
+        <div className="grid grid-cols-3 gap-4">
+          {statCards.map(({ label, value }) => (
             <div key={label} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
               <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{label}</p>
-              <p className={`text-3xl font-bold leading-none ${gold ? 'text-zinc-800' : 'text-gray-900'}`}>
-                {value}
-              </p>
+              <p className="text-3xl font-bold leading-none text-gray-900">{value}</p>
             </div>
           ))}
         </div>
 
-        {/* Rendimiento por barbero */}
-        {Object.values(stats).length > 0 && (
-          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-              <h2 className="font-semibold text-gray-900">Rendimiento este mes</h2>
-              <Link href="/admin/barberos" className="text-xs font-medium text-gray-500 hover:text-gray-900 transition-colors">
-                Ver barberos →
-              </Link>
-            </div>
-            <div className="divide-y divide-gray-100">
-              {Object.values(stats).map((stat, idx) => (
-                <div key={idx} className="flex items-center justify-between px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-zinc-100 flex items-center justify-center">
-                      <span className="text-xs font-bold text-zinc-700">
-                        {stat.name.charAt(0).toUpperCase()}
-                      </span>
-                    </div>
-                    <span className="font-medium text-gray-900 text-sm">{stat.name}</span>
-                  </div>
-                  <div className="flex items-center gap-6 text-right">
-                    <div>
-                      <p className="text-xs text-gray-400">Citas</p>
-                      <p className="font-bold text-gray-900">{stat.count}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs text-gray-400">Ingresos</p>
-                      <p className="font-bold text-zinc-800">{formatPrice(stat.revenue)}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* TODO: PRO feature (monthly revenue / analytics) */}
+        {/* Rendimiento por barbero con ingresos — descomentar cuando se implemente el plan PRO */}
 
         {/* Citas de hoy */}
         <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
