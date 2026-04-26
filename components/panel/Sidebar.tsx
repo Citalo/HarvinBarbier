@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
@@ -137,18 +136,9 @@ export default function Sidebar({ userRole }: SidebarProps) {
       `}>
         {/* Logo */}
         <div className="px-6 py-5 border-b border-white/8 flex items-center justify-between">
-          <Link href={baseUrl} onClick={() => setOpen(false)} className="flex items-center gap-2.5">
-            <div className="w-9 h-9 flex items-center justify-center flex-shrink-0">
-              <Image
-                src="/logo.webp"
-                alt="The Lord Barbier"
-                width={36}
-                height={36}
-                className="object-contain brightness-0 invert"
-              />
-            </div>
-            <span className="text-white font-semibold text-sm tracking-tight leading-tight">
-              The Lord<br />Barbier
+          <Link href={baseUrl} onClick={() => setOpen(false)}>
+            <span className="font-serif text-white font-bold text-base tracking-wide">
+              The Lord Barbier
             </span>
           </Link>
           <button
