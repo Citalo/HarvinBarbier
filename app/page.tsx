@@ -112,7 +112,7 @@ export default async function HomePage() {
 
           {/* BOTÓN */}
           <Link href="/reservar">
-            <button className="bg-black text-white font-semibold px-12 py-5 rounded-full shadow-lg hover:scale-105 hover:bg-[#222] transition-all duration-300">
+            <button className="bg-black text-white font-semibold text-2xl px-24 py-6 rounded-full shadow-lg hover:scale-105 hover:bg-[#222] transition-all duration-300">
               Reservar mi cita
             </button>
           </Link>
