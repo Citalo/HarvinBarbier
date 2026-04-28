@@ -89,9 +89,9 @@ function LoginForm() {
 
         <div className="mt-8 pt-6 border-t border-[#EEEEEE]">
           <p className="text-xs text-[#AAAAAA] mb-2">ADVERTENCIA: SI ERES CLIENTE NO NESESITAS INICIAR SESIÓN</p>
-          <p className="text-xs text-[#888888] mb-1"><span className="font-mono">harvin@harvin.cr</span> — Barbero</p>
+          {/* <p className="text-xs text-[#888888] mb-1"><span className="font-mono">harvin@harvin.cr</span> — Barbero</p>
           <p className="text-xs text-[#888888]"><span className="font-mono">admin@harvin.cr</span> — Admin</p>
-          <p className="text-xs text-[#888888] mt-1">Contraseña: <span className="font-mono">Password123!</span></p>
+          <p className="text-xs text-[#888888] mt-1">Contraseña: <span className="font-mono">Password123!</span></p> */}
         </div>
 
         <div className="mt-6 text-center">
