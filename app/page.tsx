@@ -203,15 +203,15 @@ export default async function HomePage() {
       </section>
 
       {/* FOOTER — negro */}
-      <footer className="bg-[#0A0A0A] border-t border-white/10 py-10">
+      <footer className="bg-[#0A0A0A] border-t border-white/10 py-6">
         <div className="container-app flex flex-col sm:flex-row items-center justify-between gap-8">
 
           <div className="flex-shrink-0">
             <Image
               src="/teloryn-logo.png"
               alt="The Lord Barbier"
-              width={150}
-              height={90}
+              width={220}
+              height={60}
               className="object-contain"
               loading="lazy"
               decoding="async"

@@ -30,7 +30,7 @@ export default function AdminServicios() {
   const loadServices = async () => {
     setLoading(true)
     const supabase = createClient()
-    const { data } = await supabase.from('services').select('*').order('name')
+    const { data } = await supabase.from('services').select('*').eq('active', true).order('name')
     setServices(data || [])
     setLoading(false)
   }
@@ -85,11 +85,11 @@ export default function AdminServicios() {
   }
 
   const handleDelete = async (serviceId: string) => {
-    if (!confirm('¿Eliminar este servicio?')) return
+    if (!confirm('¿Desactivar este servicio? Ya no aparecerá en el flujo de reservas.')) return
     const supabase = createClient()
-    const { error } = await supabase.from('services').delete().eq('id', serviceId)
-    if (error) { setToast({ type: 'error', message: 'Error al eliminar' }) }
-    else { setToast({ type: 'success', message: 'Servicio eliminado' }); await loadServices() }
+    const { error } = await supabase.from('services').update({ active: false }).eq('id', serviceId)
+    if (error) { setToast({ type: 'error', message: 'Error al desactivar' }) }
+    else { setToast({ type: 'success', message: 'Servicio desactivado' }); await loadServices() }
   }
 
   const inputClass = "w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-colors"
@@ -244,7 +244,7 @@ export default function AdminServicios() {
                       onClick={() => handleDelete(service.id)}
                       className="px-3 py-1.5 text-xs font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
                     >
-                      Eliminar
+                      Desactivar
                     </button>
                   </div>
                 </div>
