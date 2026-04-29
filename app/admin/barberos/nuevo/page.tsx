@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import Header from '@/components/panel/Header'
 import { Toast } from '@/components/ui/Toast'
 
@@ -47,14 +46,7 @@ export default function NuevoBarberPage() {
       <Header
         title="Nuevo barbero"
         description="Crea una cuenta de acceso para el barbero"
-        actions={
-          <Link
-            href="/admin/barberos"
-            className="text-sm text-gray-500 hover:text-gray-900 transition-colors font-medium"
-          >
-            ← Volver
-          </Link>
-        }
+        backHref="/admin/barberos"
       />
 
       <div className="p-4 md:p-8 max-w-xl">

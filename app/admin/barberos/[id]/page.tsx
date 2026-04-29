@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import Header from '@/components/panel/Header'
 import { Toast } from '@/components/ui/Toast'
@@ -42,7 +41,7 @@ export default function EditBarberPage() {
 
       const [{ data: barberData }, { data: servicesData }, { data: barberServicesData }] = await Promise.all([
         supabase.from('barbers').select('id, name, bio, avatar_url, active').eq('id', barberId).single(),
-        supabase.from('services').select('id, name').order('name'),
+        supabase.from('services').select('id, name').eq('active', true).order('name'),
         supabase.from('barber_services').select('service_id').eq('barber_id', barberId),
       ])
 
@@ -97,17 +96,18 @@ export default function EditBarberPage() {
       }
     }
 
-    setToast({ type: 'success', message: 'Barbero actualizado' })
-    setSaving(false)
+    router.push('/admin/barberos')
   }
 
   const handleToggleActive = async () => {
     if (!barber) return
+    if (!confirm('¿Eliminar este barbero?')) return
     const supabase = createClient()
-    const { error } = await supabase.from('barbers').update({ active: !barber.active }).eq('id', barberId)
-    if (!error) {
-      setBarber(prev => prev ? { ...prev, active: !prev.active } : null)
-      setToast({ type: 'success', message: barber.active ? 'Barbero desactivado' : 'Barbero activado' })
+    const { error } = await supabase.from('barbers').update({ active: false }).eq('id', barberId)
+    if (error) {
+      setToast({ type: 'error', message: 'Error al eliminar' })
+    } else {
+      router.push('/admin/barberos')
     }
   }
 
@@ -140,14 +140,7 @@ export default function EditBarberPage() {
       <Header
         title={name || barber.name}
         description="Edita la información del barbero"
-        actions={
-          <Link
-            href="/admin/barberos"
-            className="text-sm text-gray-500 hover:text-gray-900 transition-colors font-medium"
-          >
-            ← Volver
-          </Link>
-        }
+        backHref="/admin/barberos"
       />
 
       <div className="p-4 md:p-8 max-w-xl">
@@ -232,24 +225,15 @@ export default function EditBarberPage() {
             >
               {saving ? 'Guardando...' : 'Guardar cambios'}
             </button>
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="px-6 py-2.5 bg-white border border-gray-200 text-gray-700 text-sm font-medium rounded-xl hover:bg-gray-50 transition-colors"
-            >
-              Cancelar
-            </button>
-            <button
-              type="button"
-              onClick={handleToggleActive}
-              className={`px-6 py-2.5 text-sm font-medium rounded-xl transition-colors ${
-                barber.active
-                  ? 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-100'
-                  : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-100'
-              }`}
-            >
-              {barber.active ? 'Desactivar barbero' : 'Activar barbero'}
-            </button>
+            {barber.active && (
+              <button
+                type="button"
+                onClick={handleToggleActive}
+                className="px-6 py-2.5 text-sm font-medium rounded-xl transition-colors bg-red-50 text-red-700 hover:bg-red-100 border border-red-100"
+              >
+                Eliminar barbero
+              </button>
+            )}
           </div>
         </form>
       </div>

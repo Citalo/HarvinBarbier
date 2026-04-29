@@ -69,7 +69,7 @@ export default function BarberAgenda() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header title="Mi Agenda" description="Gestiona tus citas del día" isBarber />
+      <Header title="Mi Agenda" description="Gestiona tus citas del día" isBarber backHref="/barbero" />
 
       <div className="p-4 md:p-8">
 

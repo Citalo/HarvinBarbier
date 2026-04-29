@@ -65,7 +65,7 @@ export default function AdminAgenda() {
   useEffect(() => {
     const loadBarbers = async () => {
       const supabase = createClient()
-      const { data } = await supabase.from('barbers').select('id, name').order('name')
+      const { data } = await supabase.from('barbers').select('id, name').eq('active', true).order('name')
       setBarbers(data || [])
     }
     loadBarbers()
@@ -96,7 +96,7 @@ export default function AdminAgenda() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header title="Agenda Global" description="Todas las citas de la barbería" />
+      <Header title="Agenda Global" description="Todas las citas de la barbería" backHref="/admin" />
 
       <div className="p-4 md:p-8">
 

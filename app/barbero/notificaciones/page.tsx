@@ -103,6 +103,7 @@ export default function BarberNotificaciones() {
         title="Notificaciones"
         description={unreadCount > 0 ? `${unreadCount} sin leer` : 'Todo al día'}
         isBarber
+        backHref="/barbero"
         actions={
           unreadCount > 0 ? (
             <button

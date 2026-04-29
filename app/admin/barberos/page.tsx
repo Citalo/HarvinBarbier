@@ -12,6 +12,7 @@ export default async function AdminBarberos() {
   const { data: barbers } = await supabase
     .from('barbers')
     .select('id, name, bio, avatar_url, active')
+    .eq('active', true)
     .order('name', { ascending: true })
 
   return (

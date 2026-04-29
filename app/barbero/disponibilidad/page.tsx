@@ -186,7 +186,7 @@ export default function BarberDisponibilidad() {
 
   if (loading) return (
     <div className="min-h-screen bg-gray-50">
-      <Header title="Mi Disponibilidad" isBarber />
+      <Header title="Mi Disponibilidad" isBarber backHref="/barbero" />
       <div className="p-4 md:p-8 flex items-center justify-center py-24">
         <div className="text-center">
           <div className="w-7 h-7 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin mx-auto mb-3" />
@@ -198,7 +198,7 @@ export default function BarberDisponibilidad() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header title="Mi Disponibilidad" description="Horario semanal y días bloqueados" isBarber />
+      <Header title="Mi Disponibilidad" description="Horario semanal y días bloqueados" isBarber backHref="/barbero" />
 
       <div className="p-4 md:p-8 space-y-8 max-w-2xl">
 

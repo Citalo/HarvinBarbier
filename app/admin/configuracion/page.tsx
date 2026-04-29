@@ -86,7 +86,7 @@ export default function AdminConfiguracion() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header title="Configuración" description="Bloqueos globales de la barbería" />
+      <Header title="Configuración" description="Bloqueos globales de la barbería" backHref="/admin" />
 
       <div className="p-4 md:p-8 max-w-2xl">
 
