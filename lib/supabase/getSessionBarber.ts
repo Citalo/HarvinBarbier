@@ -14,7 +14,6 @@ export async function getSessionBarber(): Promise<SessionBarber | null> {
 
   const admin = createAdminClient()
 
-  // Use limit(1) instead of single() to avoid errors on 0 or multiple rows
   const { data: rows } = await admin
     .from('barbers')
     .select('id, name, tenant_id')

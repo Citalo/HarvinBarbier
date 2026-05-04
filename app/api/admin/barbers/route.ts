@@ -52,18 +52,18 @@ export async function POST(request: NextRequest) {
   }
 
   // Insert into barbers
-  const { error: barberError } = await admin.from('barbers').insert({
+  const { data: barberData, error: barberError } = await admin.from('barbers').insert({
     user_id: newUserId,
     tenant_id: tenantId,
     name,
     bio: bio || null,
     avatar_url: avatar_url || null,
     active: true,
-  })
+  }).select('id').single()
   if (barberError) {
     await admin.auth.admin.deleteUser(newUserId)
     return NextResponse.json({ error: 'Error al crear barbero: ' + barberError.message }, { status: 500 })
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ ok: true, barberId: barberData.id })
 }

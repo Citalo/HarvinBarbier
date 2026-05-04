@@ -8,9 +8,9 @@ async function getBarbers(): Promise<Barber[]> {
   const supabase = createClient()
   const { data } = await supabase
     .from('barbers')
-    .select('id, user_id, tenant_id, name, bio, avatar_url, active, created_at')
+    .select('id, user_id, tenant_id, name, bio, avatar_url, avatar_position, active, created_at')
     .eq('active', true)
-    .order('name')
+    .order('created_at')
   return data ?? []
 }
 
@@ -20,9 +20,11 @@ async function getServices(): Promise<Service[]> {
     .from('services')
     .select('id, tenant_id, name, description, duration_minutes, price, active, created_at')
     .eq('active', true)
-    .order('price')
+    .order('price', { ascending: false })
   return data ?? []
 }
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   alternates: { canonical: 'https://harvinbarbier.com' },
@@ -142,7 +144,7 @@ export default async function HomePage() {
               Próximamente nuestro equipo estará disponible para reservas.
             </p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-12">
+            <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
               {barbers.map((barber) => (
                 <BarberCard key={barber.id} barber={barber} />
               ))}
@@ -261,6 +263,7 @@ function BarberCard({ barber }: { barber: Barber }) {
             alt={`Foto de ${barber.name}, barbero en Harvin The Lord Barbier`}
             fill
             className="object-cover"
+            style={{ objectPosition: barber.avatar_position || '50% 50%' }}
             sizes="(max-width: 640px) 96px, 128px"
             loading="lazy"
             decoding="async"

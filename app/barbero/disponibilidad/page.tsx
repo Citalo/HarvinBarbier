@@ -115,23 +115,38 @@ export default function BarberDisponibilidad() {
   }
 
   const handleSaveSchedule = async () => {
-    if (!barberId) return
-    setSaving(true)
-    const supabase = createClient()
-
-    for (let day = 0; day < 7; day++) {
-      await supabase.from('working_schedules').delete().eq('barber_id', barberId).eq('day_of_week', day)
-      const dayConfig = weekConfig[day]
-      if (dayConfig.enabled && dayConfig.blocks.length > 0) {
-        await supabase.from('working_schedules').insert(
-          dayConfig.blocks.map(b => ({ barber_id: barberId, day_of_week: day, start_time: b.start, end_time: b.end }))
-        )
-      }
+    if (!barberId) {
+      setToast({ type: 'error', message: 'Sesión no válida, recargá la página' })
+      return
     }
+    setSaving(true)
+    try {
+      const rows = weekConfig.flatMap((dayConfig, day) =>
+        dayConfig.enabled && dayConfig.blocks.length > 0
+          ? dayConfig.blocks.map(b => ({ day_of_week: day, start_time: b.start, end_time: b.end }))
+          : []
+      )
 
-    setToast({ type: 'success', message: 'Horario guardado correctamente' })
-    setSaving(false)
-    await loadData()
+      const res = await fetch('/api/barber/schedule', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ rows }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setToast({ type: 'error', message: data.error || 'Error al guardar horario' })
+        return
+      }
+
+      setToast({ type: 'success', message: 'Horario guardado correctamente' })
+      await loadData()
+    } catch (err) {
+      setToast({ type: 'error', message: 'Error inesperado: ' + String(err) })
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleAddBlock = async (e: React.FormEvent) => {

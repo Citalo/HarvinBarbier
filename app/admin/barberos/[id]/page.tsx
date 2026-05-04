@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { uploadAvatar } from '@/lib/utils/uploadAvatar'
+import { AvatarUpload } from '@/components/panel/AvatarUpload'
 import Header from '@/components/panel/Header'
 import { Toast } from '@/components/ui/Toast'
 
@@ -11,6 +13,7 @@ interface Barber {
   name: string
   bio: string | null
   avatar_url: string | null
+  avatar_position: string | null
   active: boolean
 }
 
@@ -19,7 +22,7 @@ interface Service {
   name: string
 }
 
-export default function EditBarberPage() {
+export default function AdminEditarBarberoPage() {
   const router = useRouter()
   const params = useParams()
   const barberId = params.id as string
@@ -33,14 +36,16 @@ export default function EditBarberPage() {
 
   const [name, setName] = useState('')
   const [bio, setBio] = useState('')
-  const [avatarUrl, setAvatarUrl] = useState('')
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [avatarPosition, setAvatarPosition] = useState('50% 50%')
+  const [removeAvatar, setRemoveAvatar] = useState(false)
 
   useEffect(() => {
     const loadData = async () => {
       const supabase = createClient()
 
       const [{ data: barberData }, { data: servicesData }, { data: barberServicesData }] = await Promise.all([
-        supabase.from('barbers').select('id, name, bio, avatar_url, active').eq('id', barberId).single(),
+        supabase.from('barbers').select('id, name, bio, avatar_url, avatar_position, active').eq('id', barberId).single(),
         supabase.from('services').select('id, name').eq('active', true).order('name'),
         supabase.from('barber_services').select('service_id').eq('barber_id', barberId),
       ])
@@ -49,7 +54,7 @@ export default function EditBarberPage() {
         setBarber(barberData)
         setName(barberData.name)
         setBio(barberData.bio || '')
-        setAvatarUrl(barberData.avatar_url || '')
+        setAvatarPosition(barberData.avatar_position || '50% 50%')
       }
 
       setServices(servicesData || [])
@@ -72,9 +77,22 @@ export default function EditBarberPage() {
 
     const supabase = createClient()
 
+    if (!barber) return
+
+    let newAvatarUrl: string | null = removeAvatar ? null : barber.avatar_url
+    if (!removeAvatar && avatarFile) {
+      try {
+        newAvatarUrl = await uploadAvatar(avatarFile, barberId)
+      } catch {
+        setToast({ type: 'error', message: 'Error al subir la foto' })
+        setSaving(false)
+        return
+      }
+    }
+
     const { error: updateError } = await supabase
       .from('barbers')
-      .update({ name, bio: bio || null, avatar_url: avatarUrl || null })
+      .update({ name, bio: bio || null, avatar_url: newAvatarUrl, avatar_position: avatarPosition })
       .eq('id', barberId)
 
     if (updateError) {
@@ -180,14 +198,13 @@ export default function EditBarberPage() {
                 />
               </div>
 
-              <div>
-                <label className={labelClass}>URL de foto</label>
-                <input
-                  type="url"
-                  value={avatarUrl}
-                  onChange={(e) => setAvatarUrl(e.target.value)}
-                  placeholder="https://..."
-                  className={inputClass}
+              <div className="flex justify-center">
+                <AvatarUpload
+                  currentUrl={barber.avatar_url}
+                  currentPosition={barber.avatar_position}
+                  onFileSelected={setAvatarFile}
+                  onPositionChange={setAvatarPosition}
+                  onRemove={() => { setRemoveAvatar(true) }}
                 />
               </div>
             </div>

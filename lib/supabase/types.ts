@@ -79,6 +79,7 @@ export interface Database {
           name: string
           bio: string | null
           avatar_url: string | null
+          avatar_position: string | null
           active: boolean
           created_at: string
         }
@@ -89,6 +90,7 @@ export interface Database {
           name: string
           bio?: string | null
           avatar_url?: string | null
+          avatar_position?: string | null
           active?: boolean
           created_at?: string
         }
@@ -99,6 +101,7 @@ export interface Database {
           name?: string
           bio?: string | null
           avatar_url?: string | null
+          avatar_position?: string | null
           active?: boolean
           created_at?: string
         }

@@ -87,21 +87,22 @@ export default function ReservarPage() {
     loadServices()
   }, [state.selectedBarber])
 
-  // Cargar días de trabajo cuando se selecciona un barbero (para el calendario)
+  // Cargar días de trabajo cuando se selecciona un barbero o se llega al paso 3
   useEffect(() => {
     if (!state.selectedBarber) return
     async function loadWorkingDays() {
       const { data } = await supabase
         .from('working_schedules')
         .select('day_of_week')
-        .eq('barber_id', (state.selectedBarber as Barber).id)
+        .eq('barber_id', state.selectedBarber!.id)
         .eq('active', true)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const days = Array.from(new Set((data ?? []).map((ws: any) => ws.day_of_week as number)))
       setWorkingDays(days)
     }
     loadWorkingDays()
-  }, [state.selectedBarber])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.selectedBarber?.id, state.step])
 
   const set = (patch: Partial<BookingState>) => setState((prev) => ({ ...prev, ...patch }))
   const goTo = (step: Step) => set({ step })

@@ -2,15 +2,19 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { uploadAvatar } from '@/lib/utils/uploadAvatar'
+import { AvatarUpload } from '@/components/panel/AvatarUpload'
 import Header from '@/components/panel/Header'
 import { Toast } from '@/components/ui/Toast'
 
-export default function NuevoBarberPage() {
+export default function AdminNuevoBarberoPage() {
   const router = useRouter()
 
   const [name, setName] = useState('')
   const [bio, setBio] = useState('')
-  const [avatarUrl, setAvatarUrl] = useState('')
+  const [avatarFile, setAvatarFile] = useState<File | null>(null)
+  const [avatarPosition, setAvatarPosition] = useState('50% 50%')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [saving, setSaving] = useState(false)
@@ -23,7 +27,7 @@ export default function NuevoBarberPage() {
     const res = await fetch('/api/admin/barbers', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, bio, avatar_url: avatarUrl, email, password }),
+      body: JSON.stringify({ name, bio, email, password }),
     })
 
     const data = await res.json()
@@ -32,6 +36,16 @@ export default function NuevoBarberPage() {
       setToast({ type: 'error', message: data.error || 'Error al crear barbero' })
       setSaving(false)
       return
+    }
+
+    if (avatarFile && data.barberId) {
+      try {
+        const avatarUrl = await uploadAvatar(avatarFile, data.barberId)
+        const supabase = createClient()
+        await supabase.from('barbers').update({ avatar_url: avatarUrl, avatar_position: avatarPosition }).eq('id', data.barberId)
+      } catch {
+        // Avatar upload failed but barber was created — non-blocking
+      }
     }
 
     setToast({ type: 'success', message: 'Barbero creado correctamente' })
@@ -57,6 +71,14 @@ export default function NuevoBarberPage() {
             <h3 className="font-semibold text-gray-900 mb-5">Información personal</h3>
 
             <div className="space-y-4">
+              <div className="flex justify-center">
+                <AvatarUpload
+                  onFileSelected={setAvatarFile}
+                  onPositionChange={setAvatarPosition}
+                  onRemove={() => setAvatarFile(null)}
+                />
+              </div>
+
               <div>
                 <label className={labelClass}>Nombre completo</label>
                 <input
@@ -76,17 +98,6 @@ export default function NuevoBarberPage() {
                   onChange={(e) => setBio(e.target.value)}
                   rows={3}
                   placeholder="Cuéntale a los clientes sobre ti..."
-                  className={inputClass}
-                />
-              </div>
-
-              <div>
-                <label className={labelClass}>URL de foto</label>
-                <input
-                  type="url"
-                  value={avatarUrl}
-                  onChange={(e) => setAvatarUrl(e.target.value)}
-                  placeholder="https://..."
                   className={inputClass}
                 />
               </div>
