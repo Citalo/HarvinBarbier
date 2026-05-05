@@ -18,6 +18,7 @@ export async function getSessionBarber(): Promise<SessionBarber | null> {
     .from('barbers')
     .select('id, name, tenant_id')
     .eq('user_id', session.user.id)
+    .eq('active', true)
     .limit(1)
 
   const barber = rows?.[0]

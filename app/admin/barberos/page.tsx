@@ -11,7 +11,7 @@ export default async function AdminBarberos() {
 
   const { data: barbers } = await supabase
     .from('barbers')
-    .select('id, name, bio, avatar_url, active')
+    .select('id, name, bio, avatar_url, avatar_position, active')
     .eq('active', true)
     .order('name', { ascending: true })
 
@@ -46,7 +46,7 @@ export default async function AdminBarberos() {
                   {/* Avatar */}
                   <div className="w-11 h-11 rounded-full overflow-hidden bg-gray-100 border border-gray-200 flex-shrink-0">
                     {barber.avatar_url ? (
-                      <img src={barber.avatar_url} alt={barber.name} className="w-full h-full object-cover" />
+                      <img src={barber.avatar_url} alt={barber.name} className="w-full h-full object-cover" style={{ objectPosition: barber.avatar_position || '50% 50%' }} />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <span className="text-sm font-bold text-gray-400">
@@ -58,14 +58,7 @@ export default async function AdminBarberos() {
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="font-semibold text-gray-900 text-sm">{barber.name}</p>
-                      {!barber.active && (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-100">
-                          Inactivo
-                        </span>
-                      )}
-                    </div>
+                    <p className="font-semibold text-gray-900 text-sm">{barber.name}</p>
                     {barber.bio && (
                       <p className="text-xs text-gray-400 truncate mt-0.5">{barber.bio}</p>
                     )}

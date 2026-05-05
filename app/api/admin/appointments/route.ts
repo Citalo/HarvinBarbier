@@ -1,14 +1,34 @@
-import { createAdminClient } from '@/lib/supabase/server'
+import { createClient, createAdminClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 
+async function assertAdmin() {
+  const sessionClient = createClient()
+  const { data: { session } } = await sessionClient.auth.getSession()
+  if (!session) return { error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }), admin: null }
+
+  const admin = createAdminClient()
+  const { data: caller } = await admin
+    .from('users')
+    .select('role, active')
+    .eq('id', session.user.id)
+    .single()
+
+  if (caller?.role !== 'super_admin' || caller?.active === false) {
+    return { error: NextResponse.json({ error: 'Forbidden' }, { status: 403 }), admin: null }
+  }
+  return { error: null, admin }
+}
+
 export async function GET(req: NextRequest) {
+  const { error: authError, admin } = await assertAdmin()
+  if (authError) return authError
+
   const { searchParams } = new URL(req.url)
   const date = searchParams.get('date')
   const status = searchParams.get('status')
   const barber_id = searchParams.get('barber_id')
 
-  const supabase = createAdminClient()
-  let query = supabase
+  let query = admin!
     .from('appointments')
     .select('*, client:clients(first_name, last_name, phone), barber:barbers(name), service:services(name, price)')
     .order('start_time', { ascending: true })
@@ -23,8 +43,11 @@ export async function GET(req: NextRequest) {
 }
 
 export async function PATCH(req: NextRequest) {
+  const { error: authError, admin } = await assertAdmin()
+  if (authError) return authError
+
   const { id, status } = await req.json()
-  const { error } = await createAdminClient()
+  const { error } = await admin!
     .from('appointments')
     .update({ status })
     .eq('id', id)

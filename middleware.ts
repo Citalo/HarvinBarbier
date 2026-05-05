@@ -53,11 +53,11 @@ export async function middleware(request: NextRequest) {
 
   const { data: user } = await supabase
     .from('users')
-    .select('role')
+    .select('role, active')
     .eq('id', session.user.id)
     .single()
 
-  if (!user) {
+  if (!user || !(user as any).active) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 

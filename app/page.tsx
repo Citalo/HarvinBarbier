@@ -36,7 +36,7 @@ const jsonLd = {
   name: 'The Lord Barbier',
   description: 'Barbería premium en Costa Rica. Reservá tu cita online.',
   url: 'https://thelordbarbier.com',
-  telephone: '+50688887777',
+  telephone: '+50661805577',
   address: {
     '@type': 'PostalAddress',
     addressCountry: 'CR',
@@ -114,7 +114,7 @@ export default async function HomePage() {
 
           {/* BOTÓN */}
           <Link href="/reservar">
-            <button className="bg-black text-white font-semibold text-2xl px-24 py-6 rounded-full shadow-lg hover:scale-105 hover:bg-[#222] transition-all duration-300">
+            <button className="bg-black text-white font-semibold text-2xl px-20 py-6 rounded-full shadow-lg hover:scale-105 hover:bg-[#222] transition-all duration-300">
               Reservar mi cita
             </button>
           </Link>
@@ -184,10 +184,41 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* DIVISOR */}
+      <div className="container-app py-3">
+        <div className="h-px" style={{ backgroundColor: '#C8C5BB' }} />
+      </div>
+
+      {/* UBICACIÓN */}
+      <section className="py-20 sm:py-28" style={{ backgroundColor: '#ffffffff' }}>
+        <div className="container-app">
+          <div className="text-center mb-16">
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-4" style={{ color: '#999990' }}>
+              Encontranos
+            </p>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold" style={{ color: '#111111' }}>
+              Ubicación
+            </h2>
+          </div>
+
+          <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden" style={{ border: '1px solid #DDDBD4' }}>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3346.0986757040464!2d-84.64320349024771!3d10.471900664695527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8fa00d647b989cd1%3A0x10abcbb517ee0819!2sThe%20Lord%20Barbier!5e1!3m2!1ses-419!2scr!4v1777929052122!5m2!1ses-419!2scr"
+              width="100%"
+              height="420"
+              style={{ border: 0, display: 'block' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* CTA FINAL — negro */}
       <section className="py-24 bg-[#111111]">
         <div className="container-app text-center">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-6 text-white/40">
+          <p className="text-xs font-semibold tracking-[0.2em] uppercase mb-6 text-white/55">
             Sin esperas
           </p>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold text-white mb-6">
@@ -224,8 +255,8 @@ export default async function HomePage() {
             <p className="text-white/50 text-sm">
               © 2026 Teloryn · Plataforma desarrollada en Costa Rica
             </p>
-            <p className="text-white/25 text-xs mt-1">
-              Creada por Brady Méndez Developer y Santiago Pedraza Developer · Personalizada para esta barbería.
+            <p className="text-white/75 text-xs mt-1">
+              Creada por Brady Méndez y Santiago Pedraza · Personalizada para esta barbería.
             </p>
           </div>
 

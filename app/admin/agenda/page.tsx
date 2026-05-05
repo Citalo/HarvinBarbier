@@ -9,8 +9,8 @@ import { formatAppointmentDate, formatTime, formatPrice } from '@/lib/utils/form
 async function fetchAdminAppointments(date: string, status: string, barber_id: string) {
   const params = new URLSearchParams({ date, status, barber_id })
   const res = await fetch(`/api/admin/appointments?${params}`)
-  if (!res.ok) return []
-  return res.json()
+  if (!res.ok) return { data: null as Appointment[] | null, apiError: true }
+  return { data: (await res.json()) as Appointment[], apiError: false }
 }
 
 async function cancelAdminAppointment(id: string) {
@@ -55,6 +55,7 @@ export default function AdminAgenda() {
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [barbers, setBarbers] = useState<Barber[]>([])
   const [loading, setLoading] = useState(true)
+  const [apiError, setApiError] = useState(false)
   const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   const today = new Date().toISOString().split('T')[0]
@@ -74,7 +75,8 @@ export default function AdminAgenda() {
   useEffect(() => {
     const loadAppointments = async () => {
       setLoading(true)
-      const data = await fetchAdminAppointments(dateFilter, statusFilter, barberFilter)
+      const { data, apiError } = await fetchAdminAppointments(dateFilter, statusFilter, barberFilter)
+      setApiError(apiError)
       setAppointments(data || [])
       setLoading(false)
     }
@@ -145,6 +147,11 @@ export default function AdminAgenda() {
           <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-sm">
             <div className="w-7 h-7 border-2 border-gray-300 border-t-gray-700 rounded-full animate-spin mx-auto mb-3" />
             <p className="text-sm text-gray-400">Cargando citas...</p>
+          </div>
+        ) : apiError ? (
+          <div className="bg-white border border-red-100 rounded-2xl p-12 text-center shadow-sm">
+            <p className="text-sm font-medium text-red-500">Error al cargar las citas</p>
+            <p className="text-xs text-gray-400 mt-1">Recargá la página o contactá soporte</p>
           </div>
         ) : appointments.length === 0 ? (
           <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center shadow-sm">

@@ -15,6 +15,7 @@ interface Barber {
   avatar_url: string | null
   avatar_position: string | null
   active: boolean
+  user_id: string | null
 }
 
 interface Service {
@@ -45,7 +46,7 @@ export default function AdminEditarBarberoPage() {
       const supabase = createClient()
 
       const [{ data: barberData }, { data: servicesData }, { data: barberServicesData }] = await Promise.all([
-        supabase.from('barbers').select('id, name, bio, avatar_url, avatar_position, active').eq('id', barberId).single(),
+        supabase.from('barbers').select('id, name, bio, avatar_url, avatar_position, active, user_id').eq('id', barberId).single(),
         supabase.from('services').select('id, name').eq('active', true).order('name'),
         supabase.from('barber_services').select('service_id').eq('barber_id', barberId),
       ])
@@ -75,8 +76,6 @@ export default function AdminEditarBarberoPage() {
     e.preventDefault()
     setSaving(true)
 
-    const supabase = createClient()
-
     if (!barber) return
 
     let newAvatarUrl: string | null = removeAvatar ? null : barber.avatar_url
@@ -90,42 +89,46 @@ export default function AdminEditarBarberoPage() {
       }
     }
 
-    const { error: updateError } = await supabase
-      .from('barbers')
-      .update({ name, bio: bio || null, avatar_url: newAvatarUrl, avatar_position: avatarPosition })
-      .eq('id', barberId)
-
-    if (updateError) {
+    const barberRes = await fetch(`/api/admin/barbers/${barberId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, bio, avatar_url: newAvatarUrl, avatar_position: avatarPosition }),
+    })
+    if (!barberRes.ok) {
       setToast({ type: 'error', message: 'Error al actualizar barbero' })
       setSaving(false)
       return
     }
 
-    await supabase.from('barber_services').delete().eq('barber_id', barberId)
-
-    if (barberServices.size > 0) {
-      const { error: insertError } = await supabase.from('barber_services').insert(
-        Array.from(barberServices).map(serviceId => ({ barber_id: barberId, service_id: serviceId }))
-      )
-      if (insertError) {
-        setToast({ type: 'error', message: 'Error al actualizar servicios' })
-        setSaving(false)
-        return
-      }
+    const servicesRes = await fetch(`/api/admin/barbers/${barberId}/services`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ serviceIds: Array.from(barberServices) }),
+    })
+    if (!servicesRes.ok) {
+      const errBody = await servicesRes.json().catch(() => ({}))
+      setToast({ type: 'error', message: `Error al actualizar servicios (${servicesRes.status}: ${errBody?.error ?? 'desconocido'})` })
+      setSaving(false)
+      return
     }
 
-    router.push('/admin/barberos')
+    setToast({ type: 'success', message: 'Cambios guardados correctamente' })
+    setTimeout(() => router.push('/admin/barberos'), 1200)
   }
 
   const handleToggleActive = async () => {
     if (!barber) return
     if (!confirm('¿Eliminar este barbero?')) return
-    const supabase = createClient()
-    const { error } = await supabase.from('barbers').update({ active: false }).eq('id', barberId)
-    if (error) {
+    const res = await fetch(`/api/admin/barbers/${barberId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'deactivate' }),
+    })
+    if (!res.ok) {
       setToast({ type: 'error', message: 'Error al eliminar' })
     } else {
-      router.push('/admin/barberos')
+      setToast({ type: 'success', message: 'Barbero eliminado correctamente' })
+      setTimeout(() => router.push('/admin/barberos'), 1200)
     }
   }
 

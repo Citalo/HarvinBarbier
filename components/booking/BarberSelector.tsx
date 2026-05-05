@@ -40,6 +40,7 @@ export function BarberSelector({ barbers, selectedId, onSelect, onNext }: Barber
                     alt={`Barbero ${barber.name}`}
                     fill
                     className="object-cover"
+                    style={{ objectPosition: barber.avatar_position || '50% 50%' }}
                     sizes="80px"
                     loading="lazy"
                     decoding="async"

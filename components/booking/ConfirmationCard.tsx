@@ -68,8 +68,7 @@ export function ConfirmationCard({ appointment }: ConfirmationCardProps) {
         {/* Footer de la tarjeta */}
         <div className="text-center">
           <p className="text-brand-gray-400 text-xs">¿Necesitás cancelar o consultar?</p>
-          <p className="text-zinc-300 text-sm font-medium mt-1">+506 8888-7777</p>
-          <p className="text-brand-gray-600 text-xs mt-3">Costa Rica</p>
+          <p className="text-zinc-300 text-sm font-medium mt-1">Escribinos por WhatsApp</p>
         </div>
       </div>
 

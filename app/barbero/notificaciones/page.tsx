@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Header from '@/components/panel/Header'
+import { Toast } from '@/components/ui/Toast'
 
 interface NotifAppointment {
   date: string
@@ -24,6 +25,7 @@ export default function BarberNotificaciones() {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const [loading, setLoading] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
 
   const loadNotifications = async () => {
     setLoading(true)
@@ -58,7 +60,9 @@ export default function BarberNotificaciones() {
   const handleMarkAsRead = async (notifId: string) => {
     const supabase = createClient()
     const { error } = await supabase.from('notifications').update({ read: true }).eq('id', notifId)
-    if (!error) {
+    if (error) {
+      setToast({ type: 'error', message: 'Error al marcar como leída' })
+    } else {
       setNotifications(prev => prev.map(n => n.id === notifId ? { ...n, read: true } : n))
     }
   }
@@ -68,8 +72,11 @@ export default function BarberNotificaciones() {
     const unreadIds = notifications.filter(n => !n.read).map(n => n.id)
     if (unreadIds.length === 0) return
     const { error } = await supabase.from('notifications').update({ read: true }).in('id', unreadIds)
-    if (!error) {
+    if (error) {
+      setToast({ type: 'error', message: 'Error al marcar las notificaciones' })
+    } else {
       setNotifications(prev => prev.map(n => ({ ...n, read: true })))
+      setToast({ type: 'success', message: `${unreadIds.length} notificaciones marcadas como leídas` })
     }
   }
 
@@ -168,6 +175,8 @@ export default function BarberNotificaciones() {
           </div>
         )}
       </div>
+
+      {toast && <Toast type={toast.type} message={toast.message} onClose={() => setToast(null)} />}
     </div>
   )
 }
