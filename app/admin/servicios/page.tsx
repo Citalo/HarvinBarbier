@@ -41,7 +41,6 @@ export default function AdminServicios() {
     e.preventDefault()
     setSaving(true)
 
-    const supabase = createClient()
     const payload = {
       name,
       description: description || null,
@@ -49,21 +48,23 @@ export default function AdminServicios() {
       duration_minutes: parseInt(durationMinutes),
     }
 
-    if (editingId) {
-      const { error } = await supabase.from('services').update(payload).eq('id', editingId)
-      if (error) { setToast({ type: 'error', message: 'Error al actualizar' }); setSaving(false); return }
-      setToast({ type: 'success', message: 'Servicio actualizado' })
-    } else {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) { setSaving(false); return }
-      const { data: user } = await supabase.from('users').select('tenant_id').eq('id', session.user.id).single()
-      if (!user?.tenant_id) { setToast({ type: 'error', message: 'No se encontró tenant' }); setSaving(false); return }
+    const url = editingId ? `/api/admin/services/${editingId}` : '/api/admin/services'
+    const method = editingId ? 'PATCH' : 'POST'
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
 
-      const { error } = await supabase.from('services').insert([{ ...payload, tenant_id: user.tenant_id }])
-      if (error) { setToast({ type: 'error', message: 'Error al crear servicio' }); setSaving(false); return }
-      setToast({ type: 'success', message: 'Servicio creado' })
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}))
+      const action = editingId ? 'actualizar' : 'crear'
+      setToast({ type: 'error', message: `Error al ${action} servicio (${res.status}: ${errBody?.error ?? 'desconocido'})` })
+      setSaving(false)
+      return
     }
 
+    setToast({ type: 'success', message: editingId ? 'Servicio actualizado' : 'Servicio creado' })
     resetForm()
     await loadServices()
     setSaving(false)
@@ -86,10 +87,14 @@ export default function AdminServicios() {
 
   const handleDelete = async (serviceId: string) => {
     if (!confirm('¿Eliminar este servicio?')) return
-    const supabase = createClient()
-    const { error } = await supabase.from('services').update({ active: false }).eq('id', serviceId)
-    if (error) { setToast({ type: 'error', message: 'Error al eliminar' }) }
-    else { setToast({ type: 'success', message: 'Servicio eliminado' }); await loadServices() }
+    const res = await fetch(`/api/admin/services/${serviceId}`, { method: 'DELETE' })
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}))
+      setToast({ type: 'error', message: `Error al eliminar (${res.status}: ${errBody?.error ?? 'desconocido'})` })
+    } else {
+      setToast({ type: 'success', message: 'Servicio eliminado' })
+      await loadServices()
+    }
   }
 
   const inputClass = "w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 transition-colors"

@@ -95,7 +95,8 @@ export default function AdminEditarBarberoPage() {
       body: JSON.stringify({ name, bio, avatar_url: newAvatarUrl, avatar_position: avatarPosition }),
     })
     if (!barberRes.ok) {
-      setToast({ type: 'error', message: 'Error al actualizar barbero' })
+      const errBody = await barberRes.json().catch(() => ({}))
+      setToast({ type: 'error', message: `Error al actualizar barbero (${barberRes.status}: ${errBody?.error ?? 'desconocido'})` })
       setSaving(false)
       return
     }
@@ -125,7 +126,8 @@ export default function AdminEditarBarberoPage() {
       body: JSON.stringify({ action: 'deactivate' }),
     })
     if (!res.ok) {
-      setToast({ type: 'error', message: 'Error al eliminar' })
+      const errBody = await res.json().catch(() => ({}))
+      setToast({ type: 'error', message: `Error al eliminar (${res.status}: ${errBody?.error ?? 'desconocido'})` })
     } else {
       setToast({ type: 'success', message: 'Barbero eliminado correctamente' })
       setTimeout(() => router.push('/admin/barberos'), 1200)
